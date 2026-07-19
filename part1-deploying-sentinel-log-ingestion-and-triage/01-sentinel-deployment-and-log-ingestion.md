@@ -58,21 +58,18 @@ Sentinel billing is based on the volume of data ingested and retained, so I revi
 
 1. Returned to Content Hub, searched for Threat Intelligence, and installed the solution — 5 Data Connectors, 1 Workbook, 52 Analytics Rules, and 5 Hunting Queries.
 
-[SCREENSHOT: Threat Intelligence Content Hub solution installed]
+![step5.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/25353e9e7477f7fa3147fae3eb3443ba215ca3b7/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step5.1.png)
 
 2. Clicked Manage to review the deployed connectors, selected Microsoft Defender Threat Intelligence, and opened its connector page.
 3. Checked Prerequisites — this connector only required workspace read/write permissions, which I already had.
-4. Clicked Connect to begin importing IOCs (IPs, domains, URLs, and file hashes) from Microsoft Defender Threat Intelligence (MDTI) into Sentinel.
+4. Clicked Connect to begin importing IOCs (IPs, domains, URLs, and file hashes) from Microsoft Defender Threat Intelligence (MDTI) into Sentinel
 
-[SCREENSHOT: Microsoft Defender Threat Intelligence connector Configuration section before connecting]
+![step5.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/25353e9e7477f7fa3147fae3eb3443ba215ca3b7/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step5.2.png)
 
 5. Confirmed the connector status changed from Disconnected to Connected, and that the Last Log Received timestamp began updating.
-
-[SCREENSHOT: Microsoft Defender Threat Intelligence connector showing Connected status]
-
 6. Validated ingestion worked by opening the ThreatIntelligenceIndicator table in Log Analytics and confirming real, structured IOC data — fields like Action, ConfidenceScore, ThreatType, and Tags — was populated.
-
-[SCREENSHOT: Log Analytics query results showing a populated ThreatIntelligenceIndicator event]
+![step5.3](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/25353e9e7477f7fa3147fae3eb3443ba215ca3b7/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step5.3.png)
+![step5.5](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/25353e9e7477f7fa3147fae3eb3443ba215ca3b7/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step5.4.png)
 
 ## Key Takeaways
 
