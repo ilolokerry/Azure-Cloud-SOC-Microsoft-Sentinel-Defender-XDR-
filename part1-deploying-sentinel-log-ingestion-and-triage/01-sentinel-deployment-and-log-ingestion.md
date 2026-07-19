@@ -16,7 +16,7 @@ Sentinel runs as a service on top of a Log Analytics Workspace rather than as a 
 4. Filled in the workspace details — Subscription, Resource Group, Name, and Region — noting that Region determines where ingested log data resides and cannot be changed after creation.
 5. Selected Review + Create, then Create, and waited for the LAW deployment to finish.
 
-[SCREENSHOT: Log Analytics Workspace creation form with subscription, resource group, name, and region filled in]
+![step1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step1.png)
 
 ### Step 2: Add Sentinel to the Workspace
 
@@ -24,7 +24,8 @@ Sentinel runs as a service on top of a Log Analytics Workspace rather than as a 
 2. Selected the workspace and clicked Add.
 3. Waited for Sentinel to be added, then confirmed the "Microsoft Sentinel free trial activated" message.
 
-[SCREENSHOT: Sentinel successfully added to the Log Analytics Workspace]
+![step2.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step2.1.png)
+![step2.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step2.2.png)
 
 Browsing the Overview tiles — Incidents, Data, Automation, and Analytics — confirmed this was a brand-new deployment with no data connectors or incidents yet.
 
@@ -36,7 +37,7 @@ Sentinel billing is based on the volume of data ingested and retained, so I revi
 2. Since data is stored in the underlying LAW, went to Workspace Settings > Usage and estimated costs > Data Retention.
 3. Reviewed the default retention of 31 days and adjusted the Data Retention (Days) slider to fit the lab scenario, noting that longer retention increases storage cost.
 
-[SCREENSHOT: Data Retention configuration screen showing the selected retention period]
+![step3](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step%203.png)
 
 ### Step 4: Install the Microsoft Entra ID Content Hub Solution and Connect It
 
@@ -44,13 +45,14 @@ Sentinel billing is based on the volume of data ingested and retained, so I revi
 2. Searched for Microsoft Entra ID, selected it, and clicked Install.
 3. Reviewed the solution details after install: 63 Analytics Rules, 1 Data Connector, 11 Playbooks, and 2 Workbooks.
 
-[SCREENSHOT: Microsoft Entra ID Content Hub solution showing Installed status]
+![step4.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step4.1.png)
+![step4.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step4.2.png)
 
 4. Opened the Microsoft Entra ID connector page and reviewed its Description, Data Types (the log tables it would populate — SignInLogs, AuditLogs, and others), and Instructions sections.
 5. Checked Prerequisites, which listed the permissions needed: workspace read/write, diagnostic settings read/write on Microsoft Entra ID, and Global Administrator or Security Administrator on the tenant.
 6. Under Configuration, selected the Entra ID log types to connect.
 
-[SCREENSHOT: Microsoft Entra ID connector configuration page with log types selected]
+![step4.3](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/663615737a305e096077feb9a815400e3188aeaa/part1-deploying-sentinel-log-ingestion-and-triage/Media/Sentinel%20Deployment%20and%20Log%20Ingestion%20media/step4.3.png)
 
 ### Step 5: Install and Connect the Threat Intelligence Data Connector
 
