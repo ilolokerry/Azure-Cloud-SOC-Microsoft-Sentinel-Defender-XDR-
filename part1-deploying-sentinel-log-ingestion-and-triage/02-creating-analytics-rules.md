@@ -12,30 +12,27 @@ This report documents creating a custom analytics rule in Microsoft Sentinel to 
 2. Searched for the "rare subscription-level operations" rule.
 3. Selected the rule template and clicked Create rule.
 
-[SCREENSHOT: Rule templates tab showing the Rare subscription-level operations in Azure template]
+![step1.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step1.1.png)
 
 4. On the General tab, reviewed the rule description — the rule looks for sensitive subscription-level events based on Azure Activity Logs, such as the "Create or Update Snapshot" operation, which is legitimately used for backups but could be misused by attackers to dump hashes or extract sensitive information from disk.
 5. Expanded the MITRE ATT&CK dropdown and confirmed the rule maps to two tactics: Persistence and Credential Access.
-
-[SCREENSHOT: Analytics rule wizard General tab showing rule details and MITRE ATT&CK mapping]
+![step1.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step1.2.png)
 
 ### Step 2: Review the Rule Logic
 
 1. On the Set rule logic tab, read through the rule query and noted the `SensitiveOperationList` array, which defines the specific Azure operations the rule watches for.
 2. Noted that the rule query can be customized by editing the values in the `SensitiveOperationList` array directly.
 3. Used the Test with current data option to view a results simulation — a chart of the last 50 rule evaluations, with the option to click a point and view the raw events behind it.
-
-[SCREENSHOT: Rule query editor showing the SensitiveOperationList array]
-
 4. Updated the Query scheduling to run every 1 hour, looking up data from the last 7 days.
 
-[SCREENSHOT: Query scheduling settings showing 1 hour frequency and 7 day lookup period]
+![step2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step2.png)
 
 ### Step 3: Configure Incident Settings and Automated Response
 
 1. On the Incident settings tab, left the default enabled so that incidents are created from alerts triggered by this rule, noting that alert grouping can also be configured here to reduce noise from repeated single alerts.
 
-[SCREENSHOT: Incident settings tab with incident creation enabled]
+![step3.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/st6ep3.1.png)
+![step3.15](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step3.15.png)
 
 2. Skipped the Automated response tab at this stage, since it can throw an error before the rule is initially saved.
 3. Selected Review + create to save the rule.
@@ -47,7 +44,7 @@ This report documents creating a custom analytics rule in Microsoft Sentinel to 
    - Rule expiration: left as default
 6. Clicked Apply, then Review + create to finalize the rule.
 
-[SCREENSHOT: Automated response tab showing the Tag Rule automation rule configuration]
+![step3.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step3.2.png)
 
 ### Step 4: Review the Enabled Analytics Rule
 
@@ -57,12 +54,11 @@ This report documents creating a custom analytics rule in Microsoft Sentinel to 
    - Status: Enabled
    - Rule frequency: runs every 1 hour
    - Rule period: looks back over the last 7 days
-
-[SCREENSHOT: Active rule details pane showing severity, status, rule frequency, and rule period]
+![step4.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step4.1.png)
 
 3. Clicked Compare with template to view the differences between my configured settings and the original rule template in YAML, confirming the query frequency and query period had been changed from the template's defaults.
 
-[SCREENSHOT: YAML comparison between the customized rule and the original template]
+![step4.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/c791fb16e473924307560fab157d46702a5f2f14/part1-deploying-sentinel-log-ingestion-and-triage/Media/Analytics%20Rules%20media/step4.2.png)
 
 ## Key Takeaways
 
