@@ -60,7 +60,7 @@ This report documents creating a custom analytics rule in Microsoft Sentinel to 
 
 [SCREENSHOT: Active rule details pane showing severity, status, rule frequency, and rule period]
 
-3. Clicked Compare with template to view the differences between my configured settings and the original rule template in YAML, confirming the query frequency and query period had been changed from the template's defaults (1 day / 14 days) to my configured values (1 hour / 7 days).
+3. Clicked Compare with template to view the differences between my configured settings and the original rule template in YAML, confirming the query frequency and query period had been changed from the template's defaults.
 
 [SCREENSHOT: YAML comparison between the customized rule and the original template]
 
