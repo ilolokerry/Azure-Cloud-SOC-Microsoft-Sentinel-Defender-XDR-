@@ -13,7 +13,7 @@ This report documents triaging and investigating an incident in Microsoft Sentin
 | Severity | High |
 | Alert Provider | Azure Sentinel |
 | Description | Identifies a match across various data feeds for domain IOCs related to the Soloriate incident |
-| Evidence | 6 Events, 5 Alerts, 0 Bookmarks |
+| Evidence | 6 Events, 5 Alerts |
 
 ## Triage
 
