@@ -25,7 +25,6 @@ Before touching the evidence, I took ownership of the incident by assigning it t
 
 [SCREENSHOT: Incident details pane showing owner assignment and status change to In Progress]
 
-Note: Soloriate (SolarWinds) is a real, complex supply-chain compromise. A full investigation of the actual campaign is out of scope here — this exercise is about practicing Sentinel's incident handling and triage workflow, not reproducing the SolarWinds investigation itself.
 
 ## Investigation
 
