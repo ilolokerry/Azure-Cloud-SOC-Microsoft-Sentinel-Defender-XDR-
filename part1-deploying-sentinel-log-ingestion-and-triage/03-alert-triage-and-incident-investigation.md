@@ -19,12 +19,12 @@ This report documents triaging and investigating an incident in Microsoft Sentin
 
 Three new, open incidents were sitting in the queue — two Medium severity (sign-ins from atypical IPs, a malicious inbox rule) and one High severity (Soloriate Network Beacon). With limited time, severity is what decides where attention goes first, so I prioritized the High severity incident over the two Medium ones.
 
-[SCREENSHOT: Incidents queue showing 3 open incidents by severity]
+![1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/1.png)
 
 Before touching the evidence, I took ownership of the incident by assigning it to myself and moving its status from New to In Progress. This matters on a real queue — it tells the rest of the team the incident is being worked and stops duplicate effort on the same alert.
 
-[SCREENSHOT: Incident details pane showing owner assignment and status change to In Progress]
-
+![2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/2.png)
+![2.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/2.2.png)
 
 ## Investigation
 
@@ -32,17 +32,18 @@ Before touching the evidence, I took ownership of the incident by assigning it t
 
 I opened View full details to move from the summary card into the full Incident details page, then worked through the Incident timeline — five alerts, all tied to the same Soloriate Network Beacon detection. Rather than treating five alerts as five separate problems, I read them as one incident with five pieces of supporting evidence, which is the point of Sentinel's alert-to-incident correlation.
 
-[SCREENSHOT: Incident details Overview tab with the incident timeline listing five alerts]
+![3](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/3.png)
 
 I opened one alert from the timeline to review its detail flyout — severity, status, the tactic it mapped to (Command and Control), and its two associated entities: an IP address and a domain. This confirmed the alert wasn't a one-off signature match; it had real network entities attached that could be pivoted on.
 
-[SCREENSHOT: Alert flyout showing severity, tactics, and entities]
+![4](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/4.1.png)
+![4.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/4.2.png)
 
 ### Validating the Raw Event Data
 
 An alert is a conclusion, not evidence, so I clicked into the alert's linked events to see the actual log data behind it rather than taking the detection at face value. This opened the Logs pane in the context of the incident, showing a KQL query matching DNS lookups against a list of known-malicious domains.
 
-[SCREENSHOT: Logs pane showing the underlying KQL query and query results]
+![5](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/5.png)
 
 The query results confirmed a DNS lookup event for `avsvmcloud.com`, resolved via Cisco Umbrella DNS logging, tied to a source IP entity. This is the point where a suspected alert becomes a confirmed technical finding — the domain match wasn't just a detection rule firing, it was a real DNS query that occurred on the network.
 
@@ -50,7 +51,7 @@ The query results confirmed a DNS lookup event for `avsvmcloud.com`, resolved vi
 
 Closing the Logs pane surfaced the Entities panel next to the timeline, listing the IP address and the DNS domain as the two entities tied to this incident. I selected the IP entity and reviewed its Info tab, which returned geolocation and ownership data: registered to Apple Inc. (Manufacturing), geolocated to Dongguan, Guangdong, China.
 
-[SCREENSHOT: Entity Info panel showing geolocation for the IP address]
+![6](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/6.png)
 
 An IP registered to a legitimate manufacturer but geolocated abroad and tied to a known C2 domain is exactly the kind of mismatch that warrants deeper scrutiny — it doesn't confirm malicious infrastructure on its own, but it's inconsistent enough with normal traffic that it can't be dismissed as noise either.
 
@@ -65,11 +66,11 @@ Before reassigning the incident, I logged a task so the next analyst wasn't star
 - Task: Threat Hunting
 - Note: Tier-2 threat hunting required for IP entity
 
-[SCREENSHOT: Incident tasks pane with the Threat Hunting task added]
+![7](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/7.png)
 
 I then reassigned ownership from myself to the SOC LVL 2 Analyst group, formally handing the incident off with the evidence, timeline, and task already documented on the incident.
 
-[SCREENSHOT: Owner reassignment dropdown showing SOC LVL 2 Analyst group selected]
+![8](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/1e261a684553b22d61efe09a80753303e467232b/part1-deploying-sentinel-log-ingestion-and-triage/Media/triage%20media/8.png)
 
 ## Key Takeaways
 
