@@ -14,10 +14,6 @@ This report documents investigating a Defense Evasion incident in Microsoft Defe
 
 [SCREENSHOT: Incidents queue filtered to the Attempt to turn off Microsoft Defender Antivirus protection incident]
 
-4. Scrolled down to locate the matching incident and selected it to open the full incident page.
-
-[SCREENSHOT: Full incident page for Attempt to turn off Microsoft Defender Antivirus protection]
-
 ### Step 2: Review Incident Context
 
 On the incident page, I reviewed the core context before digging into individual alerts:
@@ -34,9 +30,7 @@ I noted this incident was flagged as part of a larger, multi-stage incident invo
 ### Step 3: Walk the Alert Timeline
 
 1. Switched to the Alert timeline tab to see the specific sequence of events tied to this alert, rather than just the summary.
-2. Reviewed the event: `reg.exe attempted to turn off the Microsoft Defender Antivirus security feature`, flagged as Remote execution.
-
-[SCREENSHOT: Alert timeline showing the reg.exe event flagged as Remote execution]
+2. Reviewed the event: `Powershell_ise.exe attempted to turn off the Microsoft Defender Antivirus security feature`, flagged as Remote execution.
 
 3. Expanded the event and reviewed the specific details:
    - Date and time of the event: 6/4/2026, 4:25:52 PM
@@ -52,25 +46,19 @@ I noted this incident was flagged as part of a larger, multi-stage incident invo
 
 ### Step 4: Investigate the Initiating Process
 
-1. Selected the toggle icon on the initiating process (`reg.exe`) to expand its full execution details.
+1. Selected the toggle icon on the initiating process (`powershell_ise.exe`) to expand its full execution details.
 2. Reviewed the process details:
-   - Process ID and image file path (`C:\Windows\System32\reg.exe`)
+   - Process ID and image file path (`C:\Windows\System32\powershell_ise.exe`)
    - Execution details: Token elevation Full, Integrity level High
    - Image file SHA1 hash
    - Image file creation and last modification timestamps
    - Full command line used, targeting a different Defender setting (`Real-Time Protection`) in this instance
 
-[SCREENSHOT: Expanded reg.exe process details with command line, hash, and execution details]
-
 3. Confirmed the User and Initiated by fields to trace exactly which account and parent process launched the command.
-
-[SCREENSHOT: User and Initiated by fields showing the account and parent process]
 
 ### Step 5: Review Available Response Actions
 
 1. Reviewed the three-dot menu on the alert for management options, including Submit item to Microsoft for review if further explanation from Microsoft is needed.
-
-[SCREENSHOT: Alert management menu showing Submit item to Microsoft for review]
 
 2. Reviewed the device-level response actions available if the alert is confirmed malicious:
    - Collect Investigation Package for further analysis
