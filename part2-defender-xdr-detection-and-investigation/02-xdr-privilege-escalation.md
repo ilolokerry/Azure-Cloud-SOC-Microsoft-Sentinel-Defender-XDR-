@@ -46,7 +46,7 @@ The incident graph showed a single endpoint at the center, connected to multiple
 
 3. Reviewed the Evidence section, which listed three suspicious entities:
    - `registry-value` — Suspicious
-   - `reg.exe` (PID: 3924) — Suspicious
+   - `powershell,exe` (PID: 6440) — Suspicious
    - A link-local IPv6 address (`fe80::...`) — Suspicious
 
 [SCREENSHOT: Evidence section listing the registry value, reg.exe process, and IPv6 address]
