@@ -12,7 +12,7 @@ This report documents investigating a Privilege Escalation incident in Microsoft
 2. Changed the Time Range filter to 6 months.
 3. Located and selected the incident "Multi-stage incident involving Privilege escalation on one endpoint."
 
-[SCREENSHOT: Incidents queue showing the multi-stage privilege escalation incident]
+![step1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step1.png)
 
 ### Step 2: Review Incident Context
 
@@ -26,14 +26,13 @@ On the Attack story tab, I reviewed the incident's core details before diving in
 
 The incident graph showed a single endpoint at the center, connected to multiple processes, IPs, files, a registry value, and URLs — confirming this was one coordinated attack chain spanning several tactics rather than isolated alerts.
 
-[SCREENSHOT: Attack story tab showing the incident graph and incident details pane]
+![step2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step2.png)
 
 ### Step 3: Review Alerts by Category
 
 1. Switched to the Alerts tab (17 alerts) and reviewed each one alongside its assigned category — Exfiltration, Execution, Privilege escalation, and Persistence were all represented.
 2. Identified "UAC bypass was detected" as the alert most relevant to the Privilege escalation category and selected it to open its full alert details.
 
-[SCREENSHOT: Alerts tab listing all 17 alerts with their categories]
 
 ### Step 4: Review the UAC Bypass Alert
 
@@ -41,15 +40,13 @@ The incident graph showed a single endpoint at the center, connected to multiple
 2. Checked the MITRE ATT&CK Techniques listed in the right-hand pane:
    - T1112 — Modify Registry
    - Bypass User Account Control
-
-[SCREENSHOT: UAC bypass alert details pane showing MITRE ATT&CK techniques]
-
 3. Reviewed the Evidence section, which listed three suspicious entities:
    - `registry-value` — Suspicious
    - `powershell,exe` (PID: 6440) — Suspicious
    - A link-local IPv6 address (`fe80::...`) — Suspicious
 
-[SCREENSHOT: Evidence section listing the registry value, reg.exe process, and IPv6 address]
+![step4.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step%204.1.png)
+![step4.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step%204.2.png)
 
 ### Step 5: Confirm the Technique in the Process Tree
 
@@ -64,7 +61,8 @@ Set-ItemProperty "HKCU:\software\classes\mscfile\shell\open\command" -Name "(def
 Start-Process "C:\Windows\System32\eventvwr.msc"}
 ```
 
-[SCREENSHOT: Process tree showing the registry key set event with MITRE technique T1546.001]
+![step5.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step5.1.png)
+![step5.2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/aa874ca7b527ecc6d5acdd48e7e4fbf2bb01bea2/part2-defender-xdr-detection-and-investigation/Media/XDR%20Privilege%20Escalation/step%205.2.png)
 
 This is a fileless UAC bypass: the script hijacks the default open command for `.mscfile` files under `HKCU:\software\classes\mscfile\shell\open\command`, pointing it at `cmd.exe` instead of its normal handler. It then launches `eventvwr.msc` — a Microsoft binary that auto-elevates without a UAC prompt — which, due to how Windows resolves `.mscfile` associations, ends up executing the hijacked command instead, spawning an elevated `cmd.exe` without ever triggering the UAC consent dialog.
 
