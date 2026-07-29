@@ -30,7 +30,6 @@ azure-cloud-soc-sentinel-defender-xdr/
 ├── part2-defender-xdr-detection-and-investigation/
 │   ├── xdr-defense-evasion.md
 │   ├── xdr-privilege-escalation.md
-│   ├── xdr-lateral-movement.md
 │   ├── xdr-execution.md
 │   ├── xdr-credential-access.md
 │   └── screenshots/
