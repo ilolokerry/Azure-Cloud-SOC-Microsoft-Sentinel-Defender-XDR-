@@ -10,7 +10,7 @@ This report documents investigating an Execution incident in Microsoft Defender 
 
 The incident "Hands-on keyboard attack was launched from a compromised account" (ID 17144) surfaced in the Incidents queue as a multi-stage incident, so other related alerts were expected — but the focus for this report is specifically the "A script with suspicious content was observed" alert within it. I opened that alert directly to begin the investigation.
 
-[SCREENSHOT: Incident sidebar showing the list of alerts with Open alert page option]
+![step1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/00c9a65a136d751692e7985208eb4177d4488d08/part2-defender-xdr-detection-and-investigation/Media/xdr-execution/step1.png)
 
 ### Step 2: Review Alert Context
 
@@ -24,14 +24,14 @@ On the alert page, I reviewed the core context:
 - Detection technology: Amsi, Behavior, Network
 - First/Last activity recorded: Apr 30, 2025, 4:14:41 PM
 
-[SCREENSHOT: Alert page showing device, user, process tree, and alert description]
+![step2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/00c9a65a136d751692e7985208eb4177d4488d08/part2-defender-xdr-detection-and-investigation/Media/xdr-execution/step2.png)
 
 ### Step 3: Review the Alert Timeline
 
 1. Switched to the Alert timeline tab to see the specific event sequence rather than just the summary.
 2. Reviewed the flagged event: `powershell.exe` executed a script, spawned from `powershell_ise.exe`.
 
-[SCREENSHOT: Alert timeline showing the powershell_ise.exe to powershell.exe execution chain]
+![step3](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/00c9a65a136d751692e7985208eb4177d4488d08/part2-defender-xdr-detection-and-investigation/Media/xdr-execution/step3.png)
 
 3. Reviewed the additional details available for this event:
    - Date and time the script was executed: 5/14/2026, 8:08:32 PM
@@ -49,7 +49,7 @@ This command uses `IEX` (Invoke-Expression) combined with `.NET WebClient.Downlo
 
 1. Expanded the Remote execution dropdown on the flagged event to review the full process details.
 
-[SCREENSHOT: Expanded process details for the powershell.exe execution]
+![step4](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/00c9a65a136d751692e7985208eb4177d4488d08/part2-defender-xdr-detection-and-investigation/Media/xdr-execution/step4.png)
 
 2. Reviewed the specific fields:
    - Process ID: 5104
@@ -79,7 +79,7 @@ Available response actions if the alert is confirmed malicious:
 - Isolate Device to prevent lateral movement
 - Go hunt — pivot into Advanced Hunting for further investigation across other machines
 
-[SCREENSHOT: Device action menu showing response options including Isolate Device and Go hunt]
+![step5](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/00c9a65a136d751692e7985208eb4177d4488d08/part2-defender-xdr-detection-and-investigation/Media/xdr-execution/step%205.png)
 
 ## Key Takeaways
 
